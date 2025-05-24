@@ -4,7 +4,7 @@
     "$bluramount" 0
     "$refractamount" ".1"
 //    "$REFRACTTINT" "{230 240 250}"
-    "$refracttinttexture"     "models/debug/debugwhite"
+    "$refracttinttexture"     "models/props_forest/dog_gate_fence"
     "$scale" "[1 1]"
 
 //    "$dudvmap" "dev/water_dudv"
