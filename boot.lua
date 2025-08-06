@@ -69,7 +69,8 @@ end
 status("Booting " .. _OSVERSION .. "...")
 
 -- Custom low-level dofile implementation reading from our ROM.
-local function dofile(file)
+local function dofile(file, errfunc)
+  errfunc = errfunc or error
   status("> " .. file)
   local program, reason = raw_loadfile(file)
   if program then
@@ -77,10 +78,10 @@ local function dofile(file)
     if result[1] then
       return table.unpack(result, 2, result.n)
     else
-      error(result[2])
+      errfunc(result[2])
     end
   else
-    error(reason)
+    errfunc(reason)
   end
 end
 
@@ -124,7 +125,7 @@ local function rom_invoke(method, ...)
   return component.invoke(computer.getBootAddress(), method, ...)
 end
 
-local function doDir( dir )
+local function doDir( dir, errfunc )
   if not rom_invoke("isDirectory", dir) then return end
   local scripts = {}
   for _, file in ipairs(rom_invoke("list", dir)) do
@@ -135,7 +136,7 @@ local function doDir( dir )
   end
   table.sort(scripts)
   for i = 1, #scripts do
-    dofile(scripts[i])
+    dofile(scripts[i], errfunc)
   end
 end
 
@@ -155,4 +156,4 @@ _G.runlevel = 1
 
 status("Running autorun...")
 
-doDir( "home/autorun" )
+doDir( "home/autorun", status )
