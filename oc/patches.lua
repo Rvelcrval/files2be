@@ -9,8 +9,14 @@ end
 
 local repo = "https://raw.githubusercontent.com/Rvelcrval/files2be/refs/heads/main/oc/"
 
+local args, options = shell.parse(...)
+
 -- install macro for wget
 shell.execute("wget " .. repo .. "rvget.lua /bin/rvget.lua")
+
+if args[1] == "update" then
+    shell.execute("rvget -f patches.lua /home/patches.lua")
+end
 
 -- replace boot.lua
 shell.execute("rm /lib/core/boot.lua")
