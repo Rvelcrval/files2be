@@ -11,13 +11,20 @@ local repo = "https://raw.githubusercontent.com/Rvelcrval/files2be/refs/heads/ma
 
 local args, options = shell.parse(...)
 
+-- wget -f doesnt seem to work
+
 -- install macro for wget
+print("re/installing rvget")
+shell.execute("rm /bin/rvget.lua")
 shell.execute("wget " .. repo .. "rvget.lua /bin/rvget.lua")
 
 if args[1] == "update" then
-    shell.execute("rvget -f patches.lua /home/patches.lua")
+    print("reinstalling patches")
+    shell.execute("rm /home/patches.lua")
+    shell.execute("rvget patches.lua /home/patches.lua")
 end
 
 -- replace boot.lua
+print("re/installing boot.lua")
 shell.execute("rm /lib/core/boot.lua")
 shell.execute("rvget boot.lua /lib/core/boot.lua")
