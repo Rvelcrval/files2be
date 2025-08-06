@@ -29,6 +29,6 @@ if #options > 0 then
     for k,_ in pairs(options) do str_args = str_args .. k end
 end
 
-shell.execute("wget" .. str_args .. " " .. repo .. url .. " " .. filename)
+shell.execute("wget" .. str_args .. " " .. repo .. url .. (filename and (" " .. filename) or ""))
 
 return true
